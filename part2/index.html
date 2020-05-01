@@ -9,21 +9,26 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
         $( document ).ready(function() {
-            $.get()
-            $( "section > a" ).on('click', function (event) {
-                switch (event.target.innerText) {
-                    case 'vProspect 2.0':
-                        $( "#solution" ).load( "solutions.html #vprospect" );
-                        break;
-                    case "vConvert 2.0":
-                        $( "#solution" ).load( "solutions.html #vconvert" );
-                        break;
-                    case "vRetain 1.0":
-                        $( "#solution" ).load( "solutions.html #vretain" );
+            let xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let xmlDocument = xhr.responseXML
+
+                    let team =xmlDocument.getElementsByTagName('teammember')
+                    let html = "", i;
+                    for (i=0; i< team.length; i+= 1) {
+                        html += xmlDocument.getElementsByTagName("name")[i].childNodes[0].nodeValue + "<br>" +
+                                xmlDocument.getElementsByTagName("title")[i].childNodes[0].nodeValue + "<br>" +
+                                xmlDocument.getElementsByTagName("bio")[i].childNodes[0].nodeValue + "<br><br>"
+                    }
+                    console.log(html)
+                    $('#team').append(html);
                 }
 
+            }
+            xhr.open('get', 'team.xml', true)
+            xhr.send()
 
-            })
         });
     </script>
 </head>
