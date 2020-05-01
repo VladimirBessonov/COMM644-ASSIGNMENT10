@@ -9,25 +9,61 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
         $( document ).ready(function() {
-            let xhr = new XMLHttpRequest()
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    let xmlDocument = xhr.responseXML
 
-                    let team =xmlDocument.getElementsByTagName('teammember')
-                    let html = "", i;
-                    for (i=0; i< team.length; i+= 1) {
-                        html += xmlDocument.getElementsByTagName("name")[i].childNodes[0].nodeValue + "<br>" +
-                                xmlDocument.getElementsByTagName("title")[i].childNodes[0].nodeValue + "<br>" +
-                                xmlDocument.getElementsByTagName("bio")[i].childNodes[0].nodeValue + "<br><br>"
-                    }
-                    console.log(html)
-                    $('#team').append(html);
+            var xhr = $.get( "team.xml", function() {
+                console.log( "success" );
+            })
+                .done(function( xmlDocument ) {
+
+                            let team = xmlDocument.getElementsByTagName('teammember')
+                            let html = "", i;
+
+                            Array.from(team).forEach( (element, index) => {
+                                console.log(element)
+                                    html += element.getElementsByTagName("name").item(0).innerHTML +  "<br>" +
+                                        element.getElementsByTagName("title").item(0).innerHTML + "<br>" +
+                                        element.getElementsByTagName("bio").item(0).innerHTML + "<br><br>"
+                                console.log(element.getElementsByTagName("name").item(0).innerHTML)
+                                // html += element.getElementsByTagName("name").childNodes[0].nodeValue + "<br>" +
+                                //     element.getElementsByTagName("title").childNodes[0].nodeValue + "<br>" +
+                                //    element.getElementsByTagName("bio").childNodes[0].nodeValue + "<br><br>"
+
+                            })
+                            // for (i=0; i< team.length; i+= 1) {
+                            //     html += xmlDocument.getElementsByTagName("name")[i].childNodes[0].nodeValue + "<br>" +
+                            //             xmlDocument.getElementsByTagName("title")[i].childNodes[0].nodeValue + "<br>" +
+                            //             xmlDocument.getElementsByTagName("bio")[i].childNodes[0].nodeValue + "<br><br>"
+                            // }
+                            $('#team').append(html);
+
                 }
+                )
+                .fail(function() {
+                    console.log( "error" );
+                })
+                .always(function() {
+                    console.log( "finished" );
+                });
 
-            }
-            xhr.open('get', 'team.xml', true)
-            xhr.send()
+            // let xhr = new XMLHttpRequest()
+            // xhr.onreadystatechange = function () {
+            //     if (xhr.readyState == 4 && xhr.status == 200) {
+            //         let xmlDocument = xhr.responseXML
+            //
+            //         let team =xmlDocument.getElementsByTagName('teammember')
+            //         let html = "", i;
+            //         for (i=0; i< team.length; i+= 1) {
+            //             html += xmlDocument.getElementsByTagName("name")[i].childNodes[0].nodeValue + "<br>" +
+            //                     xmlDocument.getElementsByTagName("title")[i].childNodes[0].nodeValue + "<br>" +
+            //                     xmlDocument.getElementsByTagName("bio")[i].childNodes[0].nodeValue + "<br><br>"
+            //         }
+            //         console.log(html)
+            //         $('#team').append(html);
+            //     }
+            //
+            // }
+            // xhr.open('get', 'team.xml', true)
+            // xhr.send()
 
         });
     </script>
