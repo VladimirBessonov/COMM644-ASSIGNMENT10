@@ -11,7 +11,7 @@
         $( document ).ready(function() {
 
             var xhr = $.get( "team.xml", function() {
-                console.log( "success" );
+
             })
                 .done(function( xmlDocument ) {
 
@@ -19,11 +19,10 @@
                             let html = "", i;
 
                             Array.from(team).forEach( (element, index) => {
-                                console.log(element)
+
                                     html += element.getElementsByTagName("name").item(0).innerHTML +  "<br>" +
                                         element.getElementsByTagName("title").item(0).innerHTML + "<br>" +
                                         element.getElementsByTagName("bio").item(0).innerHTML + "<br><br>"
-                                console.log(element.getElementsByTagName("name").item(0).innerHTML)
                                 // html += element.getElementsByTagName("name").childNodes[0].nodeValue + "<br>" +
                                 //     element.getElementsByTagName("title").childNodes[0].nodeValue + "<br>" +
                                 //    element.getElementsByTagName("bio").childNodes[0].nodeValue + "<br><br>"
