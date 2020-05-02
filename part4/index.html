@@ -14,11 +14,11 @@
 
                 type: "get",
 
-                url: "team.xml",
+                url: "team.json",
 
                 beforeSend: function() {
 
-                    $("#team").html("Loading...");
+                    $("#result").html("Loading...");
 
                 },
 
@@ -30,25 +30,16 @@
 
                 },
 
-                dataType: "xml",
+                dataType: "json",
 
                 success: function(data) {
-
-                    $("#team").html("");
-
-                    $(data).find("management").children().each(function() {
-
-                        var xmlDoc = $(this);
-
-                        $("#team").append("<h3>" +
-
-                            xmlDoc.find("name").text() + "</h3>" +
-
-                            xmlDoc.find("title").text() + "<br>" +
-
-                            xmlDoc.find("bio").text() + "<br>");
-
+                    $("#result").html("");
+                    obj = data.teammembers
+                    var html = ""
+                    $.each( obj, function( key, val ) {
+                        html += val.name + "<br>" + val.title + "<br>" + val.bio + "<br><br>"
                     });
+                    $("#result").append(html)
 
                 }
 
